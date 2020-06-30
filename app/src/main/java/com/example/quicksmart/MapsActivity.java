@@ -1,7 +1,9 @@
 package com.example.quicksmart;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -11,9 +13,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Location currentLocation;
+    private Location destination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +29,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+    }
+
+    /** @brief: checks if location permissions are enabled
+     *  @aram: none
+     *  @returns none
+     */
+    private void checkPermissions(){
+
+        /* check for location permissions */
+        int status = ContextCompat.checkSelfPermission(this, "android.permission.ACCESS_FINE_LOCATION");
+
+        /* if they were not granted, then ask */
+        if (status != PERMISSION_GRANTED)
+        {
+
+            /* request location access */
+
+        }
+        else
+        {
+
+            /* set current location */
+
+        }
+
     }
 
     /**
