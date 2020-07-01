@@ -1,10 +1,8 @@
 package com.example.quicksmart;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
