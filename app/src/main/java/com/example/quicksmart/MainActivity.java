@@ -84,9 +84,9 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                destinationText.setText( "Destination: " + place.getName() + ", (" + place.getAddress() + ")");
+                destinationText.setText( "Destination: " + place.getAddress());
                 destinationText.setVisibility(View.VISIBLE);
-                moveDestination(place);
+                setDestination(place);
             }
             @Override
             public void onError(Status status) {
@@ -137,7 +137,10 @@ public class MainActivity extends AppCompatActivity implements
             locationText.setText("location: " + location.getLatitude() + " , " +  location.getLongitude());
             locationText.setVisibility(View.VISIBLE);
 
-            currentLocation = mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("current location"));
+            currentLocation = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .title("current location")
+                    .draggable(true));
 
             runOnUiThread(new Runnable() {
                 @Override
@@ -246,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /* https://parallelcodes.com/android-google-map-add-autocomplete-place-search/ */
-    private void moveDestination(Place place){
+    private void setDestination(Place place){
 
         try
         {
@@ -254,9 +257,11 @@ public class MainActivity extends AppCompatActivity implements
             if(mMap != null)
             {
 
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 4));
-                destination = mMap.addMarker(new MarkerOptions().position(place.getLatLng())
-                        .title("Name:" + place.getName() + ". Address:" + place.getAddress()));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 13.5f));
+                destination = mMap.addMarker(new MarkerOptions()
+                        .position(place.getLatLng())
+                        .title("Destination: " + place.getName())
+                        .draggable(true));
 
             }else{
 
