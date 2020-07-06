@@ -275,5 +275,43 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    /** @brief get places for a given mode of transportation
+     * @note 1 for bus, 2 for train, 3 for bike-share
+     * @param transCode the code of the mode of transportation to get locations for
+     */
+    private void addPlaces(int transCode)
+    {
+
+        Place[] places = PlaceFinder.getPlaces(transCode);
+
+        for(int i = 0; i < places.length; i++)
+        {
+
+            try
+            {
+
+                if(mMap != null)
+                {
+
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(places[i].getLatLng(), 13.5f));
+                    destination = mMap.addMarker(new MarkerOptions()
+                            .position(places[i].getLatLng())
+                            .title("Destination: " + places[i].getName())
+                            .draggable(true));
+
+                }else{
+
+                }
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+        }
+
+    }
+
 
 }
