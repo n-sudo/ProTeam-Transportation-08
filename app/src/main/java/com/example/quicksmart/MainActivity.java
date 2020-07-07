@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements
     private LocationManager locationManager;
     private LatLng bestLocation;
 
+    private Switch busSwitch;
+    private Switch trainSwitch;
+    private Switch bikeSwitch;
     private Marker destination;
     private Marker currentLocation;
     private GoogleMap mMap;
@@ -68,9 +72,6 @@ public class MainActivity extends AppCompatActivity implements
         Places.initialize(getApplicationContext(), "AIzaSyA1_YNNgIOgBvnU78_TUVItovD_pRDAIjU");
 
         placesClient = Places.createClient(this);
-
-        destinationText = (TextView)  findViewById(R.id.destinationText);
-        locationText = (TextView) findViewById(R.id.locationText);
 
         //Initialize the AutocompleteSupportFragment
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
@@ -118,6 +119,12 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
+        busSwitch = (Switch) findViewById(R.id.switch1);
+        trainSwitch = (Switch) findViewById(R.id.switch2);
+        bikeSwitch = (Switch) findViewById(R.id.switch3);
+
+        bikeSwitch.setChecked(true);
+
     }
 
     @Override
@@ -140,9 +147,6 @@ public class MainActivity extends AppCompatActivity implements
 
         @Override
         public void onLocationChanged(@NonNull Location location) {
-
-            locationText.setText("location: " + location.getLatitude() + " , " +  location.getLongitude());
-            locationText.setVisibility(View.VISIBLE);
 
             currentLocation = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(location.getLatitude(), location.getLongitude()))
@@ -234,9 +238,16 @@ public class MainActivity extends AppCompatActivity implements
         mMap.setOnMarkerDragListener(this);
 
         // add markers for bike-share docks
-        addPlaces(1);
-        addPlaces(2);
-        addPlaces(3);
+        if(busSwitch.isChecked())
+            addPlaces(1);
+
+        if(trainSwitch.isChecked())
+            addPlaces(2);
+
+        if(bikeSwitch.isChecked())
+            addPlaces(3);
+
+
 
     }
 
@@ -271,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements
             addPlaces(2);
             addPlaces(3);
             mMap.addMarker(new MarkerOptions().position(currentLocation.getPosition()));
+
         }
 
         try
