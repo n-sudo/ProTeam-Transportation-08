@@ -26,6 +26,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -232,6 +233,11 @@ public class MainActivity extends AppCompatActivity implements
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMarkerDragListener(this);
 
+        // add markers for bike-share docks
+        addPlaces(1);
+        addPlaces(2);
+        addPlaces(3);
+
     }
 
     @Override
@@ -257,6 +263,16 @@ public class MainActivity extends AppCompatActivity implements
     /* https://parallelcodes.com/android-google-map-add-autocomplete-place-search/ */
     private void setDestination(Place place){
 
+        if(destination != null)
+        {
+
+            mMap.clear();
+            addPlaces(1);
+            addPlaces(2);
+            addPlaces(3);
+            mMap.addMarker(new MarkerOptions().position(currentLocation.getPosition()));
+        }
+
         try
         {
 
@@ -267,7 +283,8 @@ public class MainActivity extends AppCompatActivity implements
                 destination = mMap.addMarker(new MarkerOptions()
                         .position(place.getLatLng())
                         .title("Destination: " + place.getName())
-                        .draggable(true));
+                        .draggable(true)
+                        .icon(BitmapDescriptorFactory.defaultMarker( BitmapDescriptorFactory.HUE_ORANGE )));
 
             }else{
 
@@ -289,6 +306,34 @@ public class MainActivity extends AppCompatActivity implements
     {
 
         Place[] places = PlaceFinder.getPlaces(transCode);
+        String title;
+        float color = BitmapDescriptorFactory.HUE_RED;
+
+        switch(transCode)
+        {
+
+            case 1:
+                title = "bus stop: ";
+                color = BitmapDescriptorFactory.HUE_GREEN;
+                break;
+
+            case 2:
+                title = "train station: ";
+                color = BitmapDescriptorFactory.HUE_YELLOW;
+                break;
+
+            case 3:
+                title = "bike-share dock: ";
+                color = BitmapDescriptorFactory.HUE_CYAN;
+                break;
+
+            default:
+                title = "idk what this is: ";
+                color = BitmapDescriptorFactory.HUE_MAGENTA;
+                break;
+
+        }
+
 
         for(int i = 0; i < places.length; i++)
         {
@@ -302,8 +347,8 @@ public class MainActivity extends AppCompatActivity implements
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(places[i].getLatLng(), 13.5f));
                     destination = mMap.addMarker(new MarkerOptions()
                             .position(places[i].getLatLng())
-                            .title("Destination: " + places[i].getName())
-                            .draggable(true));
+                            .title(title + places[i].getName())
+                            .icon(BitmapDescriptorFactory.defaultMarker( color )));
 
                 }else{
 

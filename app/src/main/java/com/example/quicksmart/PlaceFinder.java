@@ -10,14 +10,11 @@ public class PlaceFinder {
 
     private static Place[][] hardcoded = new Place[3][];;
 
-    private static void init(){
+    public PlaceFinder(){
 
         // generate list of bike-share docks
-        hardcoded[3] = new Place[4];
-        hardcoded[3][1] = Place.builder().setId("1").setName("Monument Circle").setAddress("121 Monument Circle Indianapolis, IN 46201").setLatLng(new LatLng(39.769030, -86.157460)).build();
-        hardcoded[3][2] = Place.builder().setId("2").setName("Washington and Meridian").setAddress("2 W. Washington St. Indianapolis, IN 46204").setLatLng(new LatLng(39.767420, -86.158560)).build();
-        hardcoded[3][3] = Place.builder().setId("3").setName("Washington and Capitol").setAddress("101 W. Washington St. Indianapolis, IN 46204").setLatLng(new LatLng(39.766580, -86.160420)).build();
-        hardcoded[3][4] = Place.builder().setId("4").setName("Ohio St. and Meridian").setAddress("4 E Ohio St. Indianapolis, IN 46204").setLatLng(new LatLng(39.769940, -86.157890)).build();
+        hardcoded[2] = new Place[4];
+
 
     }
 
@@ -28,32 +25,35 @@ public class PlaceFinder {
     public static Place[] getPlaces(int transCode)
     {
 
-        init();
-
         Place[] places;
 
         switch(transCode)
         {
 
-            case 1:
-                // buses
-                places = hardcoded[1];
-                ;
+            case 1: // bus stops
+                places = new Place[4];
+                places[0] = Place.builder().setName("Ohio St & Pennsylvania St ").setAddress("Ohio St & Pennsylvania St Indianapolis, IN 46201").setLatLng(new LatLng(39.769863, -86.156164)).build();
+                places[1] = Place.builder().setName("Downtown Transit Center").setAddress("Downtown Transit Center Indianapolis, IN 46204").setLatLng(new LatLng(39.766509, -86.153565)).build();
+                places[2] = Place.builder().setName("Delaware St & Market St").setAddress("Delaware St & Market St Indianapolis, IN 46204").setLatLng(new LatLng(39.768438, -86.154420)).build();
+                places[3] = Place.builder().setName("Ohio St & Illinois St").setAddress("4 E Ohio St. Indianapolis, IN 46204").setLatLng(new LatLng(39.769951, -86.159813)).build();
+                break;
 
-            case 2:
-                // trains
-                places = hardcoded[2];
-                ;
+            case 2: // train stations
+                places = new Place[1];
+                places[0] = Place.builder().setName("Downtown Train Station").setAddress("350 South Illinois Street Indianapolis, IN 46225-1198").setLatLng(new LatLng(39.762092, -86.160517)).build();
+                break;
 
-            case 3:
-                places = hardcoded[3];
-                // bike-share
-                ;
+            case 3: // bike-share docks
+                places = new Place[4];
+                places[0] = Place.builder().setName("Monument Circle").setAddress("121 Monument Circle Indianapolis, IN 46201").setLatLng(new LatLng(39.769030, -86.157460)).build();
+                places[1] = Place.builder().setName("Washington and Meridian").setAddress("2 W. Washington St. Indianapolis, IN 46204").setLatLng(new LatLng(39.767420, -86.158560)).build();
+                places[2] = Place.builder().setName("Washington and Capitol").setAddress("101 W. Washington St. Indianapolis, IN 46204").setLatLng(new LatLng(39.766580, -86.160420)).build();
+                places[3] = Place.builder().setName("Ohio St. and Meridian").setAddress("4 E Ohio St. Indianapolis, IN 46204").setLatLng(new LatLng(39.769940, -86.157890)).build();
+                break;
 
             default:
                 places = null;
-                // do stuff
-                ;
+                break;
 
         }
 
