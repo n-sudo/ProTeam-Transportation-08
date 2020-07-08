@@ -87,6 +87,17 @@ public class MainActivity extends AppCompatActivity implements
                 new LatLng(39.632193, -86.324746),
                 new LatLng(39.960092, -85.883683)));
 
+        busSwitch = (Switch) findViewById(R.id.switch1);
+        trainSwitch = (Switch) findViewById(R.id.switch2);
+        bikeSwitch = (Switch) findViewById(R.id.switch3);
+
+        // setup the map fragment
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+
+        // call onMapReadyCallback when the map is ready
+        mapFragment.getMapAsync(this);
+
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -102,13 +113,6 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
-        // setup the map fragment
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-
-        // call onMapReadyCallback when the map is ready
-        mapFragment.getMapAsync(this);
-
         Button viewMap = (Button) findViewById(R.id.button);
         viewMap.setOnClickListener(new View.OnClickListener()
         {
@@ -119,11 +123,15 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
-        busSwitch = (Switch) findViewById(R.id.switch1);
-        trainSwitch = (Switch) findViewById(R.id.switch2);
-        bikeSwitch = (Switch) findViewById(R.id.switch3);
-
-        bikeSwitch.setChecked(true);
+        final Button refreshMap = (Button) findViewById(R.id.refresh);
+        refreshMap.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                refreshMap();
+            }
+        });
 
     }
 
@@ -230,7 +238,6 @@ public class MainActivity extends AppCompatActivity implements
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-
         // add a marker at indianapolis
         LatLng indy = new LatLng(39.768402, -86.158066);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom( indy,13.75f ));
@@ -246,7 +253,6 @@ public class MainActivity extends AppCompatActivity implements
 
         if(bikeSwitch.isChecked())
             addPlaces(3);
-
 
 
     }
@@ -272,18 +278,8 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /* https://parallelcodes.com/android-google-map-add-autocomplete-place-search/ */
-    private void setDestination(Place place){
-
-        if(destination != null)
-        {
-
-            mMap.clear();
-            addPlaces(1);
-            addPlaces(2);
-            addPlaces(3);
-            mMap.addMarker(new MarkerOptions().position(currentLocation.getPosition()));
-
-        }
+    private void setDestination(Place place)
+    {
 
         try
         {
@@ -356,7 +352,6 @@ public class MainActivity extends AppCompatActivity implements
                 if(mMap != null)
                 {
 
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(places[i].getLatLng(), 13.5f));
                     destination = mMap.addMarker(new MarkerOptions()
                             .position(places[i].getLatLng())
                             .title(title + places[i].getName())
@@ -373,6 +368,24 @@ public class MainActivity extends AppCompatActivity implements
             }
 
         }
+
+    }
+
+    private void refreshMap() {
+
+
+        mMap.clear();
+
+        if (busSwitch.isChecked())
+            addPlaces(1);
+
+        if (trainSwitch.isChecked())
+            addPlaces(2);
+
+        if (bikeSwitch.isChecked())
+            addPlaces(3);
+
+        mMap.addMarker(new MarkerOptions().position(currentLocation.getPosition()));
 
     }
 
