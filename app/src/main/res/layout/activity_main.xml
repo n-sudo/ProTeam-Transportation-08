@@ -107,7 +107,7 @@
         app:layout_constraintVertical_bias="0.003" />
 
     <Button
-        android:id="@+id/button11"
+        android:id="@+id/busRoute"
         android:layout_width="372dp"
         android:layout_height="45dp"
         android:layout_marginTop="16dp"
@@ -117,32 +117,32 @@
         app:layout_constraintTop_toBottomOf="@+id/switch3" />
 
     <Button
-        android:id="@+id/button12"
+        android:id="@+id/trainSchedule"
         android:layout_width="372dp"
         android:layout_height="45dp"
         android:text="Train Schedule"
-        app:layout_constraintEnd_toEndOf="@+id/button11"
-        app:layout_constraintStart_toStartOf="@+id/button11"
-        app:layout_constraintTop_toBottomOf="@+id/button11" />
+        app:layout_constraintEnd_toEndOf="@+id/busRoute"
+        app:layout_constraintStart_toStartOf="@+id/busRoute"
+        app:layout_constraintTop_toBottomOf="@+id/busRoute" />
 
     <Button
-        android:id="@+id/button13"
+        android:id="@+id/bikeShareInfo"
         android:layout_width="372dp"
         android:layout_height="45dp"
         android:text="Bike-Share Info"
-        app:layout_constraintEnd_toEndOf="@+id/button12"
-        app:layout_constraintStart_toStartOf="@+id/button12"
-        app:layout_constraintTop_toBottomOf="@+id/button12" />
+        app:layout_constraintEnd_toEndOf="@+id/trainSchedule"
+        app:layout_constraintStart_toStartOf="@+id/trainSchedule"
+        app:layout_constraintTop_toBottomOf="@+id/trainSchedule" />
 
     <Button
-        android:id="@+id/button14"
+        android:id="@+id/planMyTrip"
         android:layout_width="372dp"
         android:layout_height="45dp"
         android:text="Plan my trip"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/button13"
-        app:layout_constraintStart_toStartOf="@+id/button13"
-        app:layout_constraintTop_toBottomOf="@+id/button13"
+        app:layout_constraintEnd_toEndOf="@+id/bikeShareInfo"
+        app:layout_constraintStart_toStartOf="@+id/bikeShareInfo"
+        app:layout_constraintTop_toBottomOf="@+id/bikeShareInfo"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

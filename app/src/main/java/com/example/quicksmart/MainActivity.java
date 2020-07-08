@@ -133,6 +133,20 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
+        Button busRoutes = (Button) findViewById(R.id.busRoute);
+        busRoutes.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+
+                toBusRoutes();
+
+            }
+
+        });
+
     }
 
     @Override
@@ -211,6 +225,12 @@ public class MainActivity extends AppCompatActivity implements
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
 
+    }
+
+    private void toBusRoutes(){
+
+        Intent intent = new Intent(this, BusRoutesActivity.class);
+        startActivity(intent);
     }
 
 
