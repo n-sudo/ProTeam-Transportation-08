@@ -49,17 +49,14 @@ public class MainActivity extends AppCompatActivity implements
     private static final String TAG = "Tag"; // For place autocomplete
 
     private LocationManager locationManager;
-    private LatLng bestLocation;
-
     private Switch busSwitch;
     private Switch trainSwitch;
     private Switch bikeSwitch;
     private Marker destination;
     private Marker currentLocation;
     private GoogleMap mMap;
-    private TextView destinationText;
-    private TextView locationText;
     private PlacesClient placesClient;
+    private TextView safetyText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -145,6 +142,15 @@ public class MainActivity extends AppCompatActivity implements
 
         });
 
+        safetyText = (TextView) findViewById(R.id.safetyText);
+        safetyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toSafetyInfo();
+            }
+        });
+
+
     }
 
     @Override
@@ -229,6 +235,13 @@ public class MainActivity extends AppCompatActivity implements
 
         Intent intent = new Intent(this, BusRoutesActivity.class);
         startActivity(intent);
+    }
+
+    private void toSafetyInfo(){
+
+        Intent intent = new Intent(this, SafetyActivity.class);
+        startActivity(intent);
+
     }
 
 
@@ -403,7 +416,7 @@ public class MainActivity extends AppCompatActivity implements
         if (bikeSwitch.isChecked())
             addPlaces(3);
 
-        mMap.addMarker(new MarkerOptions().position(currentLocation.getPosition()));
+        mMap.addMarker(new MarkerOptions().title("current location").position(currentLocation.getPosition()));
 
         if(destination != null)
         {

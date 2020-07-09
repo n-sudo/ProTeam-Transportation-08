@@ -29,9 +29,9 @@
 
     <TextView
         android:id="@+id/routeTitle"
-        android:layout_width="238dp"
+        android:layout_width="274dp"
         android:layout_height="49dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:text="ROUTE ##"
@@ -41,14 +41,14 @@
         android:textStyle="bold"
         android:verticalScrollbarPosition="defaultPosition"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/routeMap"
-        android:layout_width="383dp"
-        android:layout_height="266dp"
+        android:layout_width="399dp"
+        android:layout_height="280dp"
         android:scaleType="centerInside"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,14 +67,14 @@
         android:text="Schedule"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintHorizontal_bias="0.022"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/routeMap" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView2"
-        android:layout_width="383dp"
-        android:layout_height="260dp"
+        android:layout_width="398dp"
+        android:layout_height="269dp"
         android:background="#3E3E3E"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

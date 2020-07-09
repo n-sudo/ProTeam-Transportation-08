@@ -47,26 +47,31 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="205dp"
-        android:layout_height="26dp"
+        android:id="@+id/safetyText"
+        android:layout_width="366dp"
+        android:layout_height="25dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="12dp"
-        android:text="Where would you like to go?"
+        android:background="#D30101"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="stay safe with these recommendations ->"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="102dp"
-        android:layout_height="43dp"
+        android:layout_height="44dp"
         android:layout_marginTop="12dp"
         android:text="View Map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/autocomplete_fragment"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/safetyText" />
 
     <Switch
         android:id="@+id/switch1"
