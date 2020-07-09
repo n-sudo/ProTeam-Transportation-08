@@ -103,8 +103,6 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                destinationText.setText( "Destination: " + place.getAddress());
-                destinationText.setVisibility(View.VISIBLE);
                 setDestination(place);
             }
             @Override
@@ -372,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements
                 if(mMap != null)
                 {
 
-                    destination = mMap.addMarker(new MarkerOptions()
+                    mMap.addMarker(new MarkerOptions()
                             .position(places[i].getLatLng())
                             .title(title + places[i].getName())
                             .icon(BitmapDescriptorFactory.defaultMarker( color )));
@@ -406,6 +404,17 @@ public class MainActivity extends AppCompatActivity implements
             addPlaces(3);
 
         mMap.addMarker(new MarkerOptions().position(currentLocation.getPosition()));
+
+        if(destination != null)
+        {
+
+            destination = mMap.addMarker(new MarkerOptions().position(destination.getPosition())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    .title(destination.getTitle()));
+
+        }
+
+
 
     }
 
