@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -150,6 +151,14 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
+        ImageButton settings = (ImageButton) findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toSettings();
+            }
+        });
+
 
     }
 
@@ -240,6 +249,13 @@ public class MainActivity extends AppCompatActivity implements
     private void toSafetyInfo(){
 
         Intent intent = new Intent(this, SafetyActivity.class);
+        startActivity(intent);
+
+    }
+
+    private void toSettings(){
+
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
 
     }
