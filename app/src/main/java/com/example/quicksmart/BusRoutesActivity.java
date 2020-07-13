@@ -7,10 +7,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class BusRoutesActivity extends AppCompatActivity {
 
     private int routeNumber = 2;
+
 
     private TextView routeTitle;
     private ImageView routeMap;
@@ -85,6 +88,20 @@ public class BusRoutesActivity extends AppCompatActivity {
             "?"
     };
 
+
+
+    // name, time1, time2, ...
+    private stop[][] schedules = {
+
+        { // route schedule name
+            new stop("stop1", new String[] {"time 1", "time 2"}),
+            new stop("stop2", new String[] {"time 1", "time 2"}),
+            new stop("stop3", new String[] {"time 1", "time 2"}),
+            new stop("stop4", new String[] {"time 1", "time 2"})
+        }
+
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +132,12 @@ public class BusRoutesActivity extends AppCompatActivity {
                 changeRoute(2);
             }
         });
+
+        // setup the recycler view (will crash the app)
+        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(schedules[1]);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView2);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerView.setAdapter(scheduleAdapter);
 
     }
 
@@ -150,3 +173,5 @@ public class BusRoutesActivity extends AppCompatActivity {
     }
 
 }
+
+
