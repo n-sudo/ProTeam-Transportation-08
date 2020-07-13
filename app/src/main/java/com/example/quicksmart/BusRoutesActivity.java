@@ -18,10 +18,71 @@ public class BusRoutesActivity extends AppCompatActivity {
     private Button prev;
 
     private int[] routeMaps = {
-            R.drawable.route2,
-            R.drawable.route3,
-            R.drawable.route4,
-            R.drawable.route5
+            R.drawable.bus_route__1_,
+            R.drawable.bus_route__2_,
+            R.drawable.bus_route__3_,
+            R.drawable.bus_route__4_,
+            R.drawable.bus_route__5_,
+            R.drawable.bus_route__6_,
+            R.drawable.bus_route__7_,
+            R.drawable.bus_route__8_,
+            R.drawable.bus_route__9_,
+            R.drawable.bus_route__10_,
+            R.drawable.bus_route__11_,
+            R.drawable.bus_route__12_,
+            R.drawable.bus_route__13_,
+            R.drawable.bus_route__14_,
+            R.drawable.bus_route__15_,
+            R.drawable.bus_route__16_,
+            R.drawable.bus_route__17_,
+            R.drawable.bus_route__18_,
+            R.drawable.bus_route__19_,
+            R.drawable.bus_route__20_,
+            R.drawable.bus_route__21_,
+            R.drawable.bus_route__22_,
+            R.drawable.bus_route__23_,
+            R.drawable.bus_route__24_,
+            R.drawable.bus_route__25_,
+            R.drawable.bus_route__26_,
+            R.drawable.bus_route__27_,
+            R.drawable.bus_route__28_,
+            R.drawable.bus_route__29_,
+            R.drawable.bus_route__30_,
+            R.drawable.bus_route__31_
+    };
+
+    private String[] routeNames = {
+            "E. 34th Street",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?",
+            "Minnesota",
+            "Castleton",
+            "Prospect",
+            "Raymond",
+            "Minnesota",
+            "E. 16th Street",
+            "10th Street",
+            "Washington",
+            "Harding",
+            "E. 25th Street",
+            "Fort Harrison",
+            "idk",
+            "Michigan Street",
+            "?",
+            "?",
+            "?",
+            "?",
+            "?"
     };
 
     @Override
@@ -63,18 +124,18 @@ public class BusRoutesActivity extends AppCompatActivity {
         {
 
             case 1:
-                if(routeNumber < 5){
+                if(routeNumber < 30){
                     routeNumber++;
                 }else{
-                    routeNumber = 2;
+                    routeNumber = 0;
                 }
                 break;
 
             case 2:
-                if(routeNumber > 2){
+                if(routeNumber > 0){
                     routeNumber--;
                 }else{
-                    routeNumber = 5;
+                    routeNumber = 30;
                 }
                 break;
 
@@ -83,8 +144,8 @@ public class BusRoutesActivity extends AppCompatActivity {
 
         }
 
-        routeTitle.setText("ROUTE " + routeNumber);
-        routeMap.setImageResource(routeMaps[(routeNumber - 2)]);
+        routeTitle.setText(routeNames[routeNumber]);
+        routeMap.setImageResource(routeMaps[(routeNumber)]);
 
     }
 
