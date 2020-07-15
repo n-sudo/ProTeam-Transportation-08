@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class BusRoutesActivity extends AppCompatActivity {
 
-    private int routeNumber = 2;
+    private int routeNumber = 22;
 
-
+    private RecyclerView recyclerView;
     private TextView routeTitle;
     private ImageView routeMap;
     private Button next;
@@ -92,14 +92,99 @@ public class BusRoutesActivity extends AppCompatActivity {
 
     // name, time1, time2, ...
     private stop[][] schedules = {
-
-        { // route schedule name
-            new stop("stop1", new String[] {"time 1", "time 2"}),
-            new stop("stop2", new String[] {"time 1", "time 2"}),
-            new stop("stop3", new String[] {"time 1", "time 2"}),
-            new stop("stop4", new String[] {"time 1", "time 2"})
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // Schedule 0: E.25th
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+            new stop((String) "stop2", new String[] {"time 1", "time 2"}),
+            new stop((String) "stop3", new String[] {"time 1", "time 2"}),
+            new stop((String) "stop4", new String[] {"time 1", "time 2", "time 3", "time 4"})
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
+        },
+        { // placeholder
+            new stop((String) "stop1", new String[] {"time 1", "time 2"}),
         }
-
     };
 
     @Override
@@ -109,11 +194,11 @@ public class BusRoutesActivity extends AppCompatActivity {
 
         // setup the route title
         routeTitle = (TextView) findViewById(R.id.routeTitle);
-        routeTitle.setText("ROUTE " + routeNumber);
+        routeTitle.setText(routeNames[routeNumber]);
 
         // setup the imageview for the route map
         routeMap = (ImageView) findViewById(R.id.routeMap);
-        routeMap.setImageResource(R.drawable.route2);
+        routeMap.setImageResource(routeMaps[routeNumber - 1]);
 
         // setup next route button
         next = (Button) findViewById(R.id.nextRoute);
@@ -134,10 +219,10 @@ public class BusRoutesActivity extends AppCompatActivity {
         });
 
         // setup the recycler view (will crash the app)
-        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(schedules[1]);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView2);
+        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(schedules[routeNumber - 1]);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView2);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //recyclerView.setAdapter(scheduleAdapter);
+        recyclerView.setAdapter(scheduleAdapter);
 
     }
 
@@ -169,6 +254,8 @@ public class BusRoutesActivity extends AppCompatActivity {
 
         routeTitle.setText(routeNames[routeNumber]);
         routeMap.setImageResource(routeMaps[(routeNumber)]);
+        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(schedules[routeNumber - 1]);
+        recyclerView.setAdapter(scheduleAdapter);
 
     }
 

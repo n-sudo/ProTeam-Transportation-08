@@ -18,4 +18,34 @@ public class stop {
 
     }
 
+    public static String[] getTimes(){
+
+        return times;
+
+    }
+
+    public static String getTimesString(){
+
+        String timeString = "";
+
+        for(int i = 0; i < times.length; i++){
+
+            timeString = timeString + times[i];
+
+            if((i+1) == times.length){
+
+                timeString = timeString + " ";
+
+            }else{
+
+                timeString = timeString + ", ";
+
+            }
+
+        }
+
+        return timeString;
+
+    }
+
 }

@@ -10,9 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 /* https://www.javatpoint.com/android-recyclerview-list-example */
 
-public class ScheduleAdapter extends RecyclerView.Adapter {
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
 
     private stop[] stops;
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView text;
+        public ViewHolder(View itemView) {
+            super(itemView);
+            this.text = (TextView) itemView.findViewById(R.id.textView);
+        }
+    }
 
     public ScheduleAdapter(stop[] stops){
 
@@ -22,31 +30,32 @@ public class ScheduleAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem = layoutInflater.inflate(R.layout.list_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(listItem);
         return viewHolder;
     }
 
-
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position){
+    public void onBindViewHolder(ScheduleAdapter.ViewHolder holder, int position) {
 
+        holder.text.setText(stops[position].getName() + ": " + stops[position].getTimesString());
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+
+        return stops.length;
+
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView text;
-        public ViewHolder(View itemView) {
-            super(itemView);
-            this.text = (TextView) itemView.findViewById(R.id.textView);
-        }
-    }
+
+
 
 }
+
+
+
+
