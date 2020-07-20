@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,14 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.maps.DistanceMatrixApi;
+import com.google.maps.DistanceMatrixApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.TravelMode;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements
@@ -47,8 +55,12 @@ public class MainActivity extends AppCompatActivity implements
         GoogleMap.OnMarkerDragListener,
         GoogleMap.OnMarkerClickListener {
 
-    private static final String TAG = "Tag"; // For place autocomplete
+    private static final String TAG = "PlacesAPI"; // For place autocomplete
+    //private static final GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyA1_YNNgIOgBvnU78_TUVItovD_pRDAIjU"); // For distance calculations
+    private static GeoApiContext context = new GeoApiContext.Builder()
+            .apiKey("AIzaSyA1_YNNgIOgBvnU78_TUVItovD_pRDAIjU").build();
 
+    private ProgressBar pgsBar;
     private LocationManager locationManager;
     private Switch busSwitch;
     private Switch trainSwitch;
@@ -58,14 +70,16 @@ public class MainActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     private PlacesClient placesClient;
     private TextView safetyText;
+    private Marker bestBikeRoute;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize loading bar
+        pgsBar = (ProgressBar) findViewById(R.id.pBar);
         // Initialize Places SDK
         Places.initialize(getApplicationContext(), "AIzaSyA1_YNNgIOgBvnU78_TUVItovD_pRDAIjU");
 
@@ -103,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
                 setDestination(place);
             }
+
             @Override
             public void onError(Status status) {
                 Log.i(TAG, "An error occurred: " + status);
@@ -110,32 +125,26 @@ public class MainActivity extends AppCompatActivity implements
         });
 
         Button viewMap = (Button) findViewById(R.id.button);
-        viewMap.setOnClickListener(new View.OnClickListener()
-        {
+        viewMap.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 toMap();
             }
         });
 
         final Button refreshMap = (Button) findViewById(R.id.refresh);
-        refreshMap.setOnClickListener(new View.OnClickListener()
-        {
+        refreshMap.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 refreshMap();
             }
         });
 
         Button busRoutes = (Button) findViewById(R.id.busRoute);
-        busRoutes.setOnClickListener(new View.OnClickListener()
-        {
+        busRoutes.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
                 toBusRoutes();
 
@@ -163,12 +172,11 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-        if(requestCode == 1) {
+        if (requestCode == 1) {
 
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 System.out.println(" [31m Location permissions granted, starting location");
 
@@ -206,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private boolean checkLocation() {
-        if(!isLocationEnabled())
+        if (!isLocationEnabled())
             showAlert();
         return isLocationEnabled();
     }
@@ -232,28 +240,27 @@ public class MainActivity extends AppCompatActivity implements
         dialog.show();
     }
 
-    private void toMap()
-    {
+    private void toMap() {
 
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
 
     }
 
-    private void toBusRoutes(){
+    private void toBusRoutes() {
 
         Intent intent = new Intent(this, BusRoutesActivity.class);
         startActivity(intent);
     }
 
-    private void toSafetyInfo(){
+    private void toSafetyInfo() {
 
         Intent intent = new Intent(this, SafetyActivity.class);
         startActivity(intent);
 
     }
 
-    private void toSettings(){
+    private void toSettings() {
 
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
@@ -269,8 +276,7 @@ public class MainActivity extends AppCompatActivity implements
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED)
-        {
+                != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -287,18 +293,18 @@ public class MainActivity extends AppCompatActivity implements
 
         // add a marker at indianapolis
         LatLng indy = new LatLng(39.768402, -86.158066);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom( indy,13.75f ));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(indy, 13.75f));
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMarkerDragListener(this);
 
         // add markers for bike-share docks
-        if(busSwitch.isChecked())
+        if (busSwitch.isChecked())
             addPlaces(1);
 
-        if(trainSwitch.isChecked())
+        if (trainSwitch.isChecked())
             addPlaces(2);
 
-        if(bikeSwitch.isChecked())
+        if (bikeSwitch.isChecked())
             addPlaces(3);
 
 
@@ -325,47 +331,97 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /* https://parallelcodes.com/android-google-map-add-autocomplete-place-search/ */
-    private void setDestination(Place place)
-    {
+    private void setDestination(Place place) {
 
-        try
-        {
+        try {
 
-            if(mMap != null)
-            {
+            if (mMap != null) {
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 13.5f));
                 destination = mMap.addMarker(new MarkerOptions()
                         .position(place.getLatLng())
                         .title("Destination: " + place.getName())
-                        .draggable(true)
-                        .icon(BitmapDescriptorFactory.defaultMarker( BitmapDescriptorFactory.HUE_ORANGE )));
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
 
-            }else{
+                // Adds purple mark for best bike
+                if(bikeSwitch.isChecked())
+                    addBestBikeLoc(place);
+                
+            } else {
 
             }
 
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
 
     }
 
-    /** @brief get places for a given mode of transportation
-     * @note 1 for bus, 2 for train, 3 for bike-share
+    public void addBestBikeLoc(Place place) throws InterruptedException, ApiException, IOException {
+        pgsBar.setVisibility(View.VISIBLE);
+        // Remove previous marker
+        if(bestBikeRoute != null)
+            bestBikeRoute.remove();
+        // For pointing out best bike location
+        Place bestBikeLoc = null;
+        long bestDur = Integer.MAX_VALUE;
+        String walkDur = "";
+        String bikeDur = "";
+        // Current location of user
+        com.google.maps.model.LatLng currentLoc = new com.google.maps.model.LatLng(currentLocation.getPosition().latitude,
+                currentLocation.getPosition().longitude);
+        for (Place bikeLoc : PlaceFinder.getPlaces(3)) {
+            // Since there are two kinds of LatLng and google hates me
+            com.google.maps.model.LatLng bikeLocToCheck = new com.google.maps.model.LatLng(bikeLoc.getLatLng().latitude,
+                    bikeLoc.getLatLng().longitude);
+            com.google.maps.model.LatLng dest = new com.google.maps.model.LatLng(place.getLatLng().latitude,
+                    place.getLatLng().longitude);
+            // For from current location to bike
+            DistanceMatrixApiRequest req1 = DistanceMatrixApi.newRequest(context);
+            DistanceMatrix trix1 = req1.origins(currentLoc)
+                    .destinations(bikeLocToCheck)
+                    .mode(TravelMode.WALKING)
+                    .await();
+            // For from bike to destination
+            DistanceMatrixApiRequest req2 = DistanceMatrixApi.newRequest(context);
+            DistanceMatrix trix2 = req2.origins(bikeLocToCheck)
+                    .destinations(dest)
+                    .mode(TravelMode.BICYCLING)
+                    .await();
+            long duration = trix1.rows[0].elements[0].duration.inSeconds;
+            Log.d("MyApp","Duration 1 " + duration);
+            duration += trix2.rows[0].elements[0].duration.inSeconds;
+            Log.d("MyApp","Duration 2 " + duration);
+            if (duration < bestDur) {
+                bestDur = duration;
+                bestBikeLoc = bikeLoc;
+                walkDur = trix1.rows[0].elements[0].duration.toString();
+                bikeDur = trix2.rows[0].elements[0].duration.toString();
+            }
+            duration = 0;
+        } // End for loop
+        if (bestBikeLoc != null) {
+            Log.d("MyApp","Hey it wasn't null");
+            bestBikeRoute = mMap.addMarker(new MarkerOptions()
+                    .position(bestBikeLoc.getLatLng())
+                    .title("Fastest Bike Route: Walk - " + walkDur + ", Bike - " + bikeDur)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+        }
+        pgsBar.setVisibility(View.GONE);
+    }
+
+    /**
      * @param transCode the code of the mode of transportation to get locations for
+     * @brief get places for a given mode of transportation
+     * @note 1 for bus, 2 for train, 3 for bike-share
      */
-    private void addPlaces(int transCode)
-    {
+    private void addPlaces(int transCode) {
 
         Place[] places = PlaceFinder.getPlaces(transCode);
         String title;
         float color = BitmapDescriptorFactory.HUE_RED;
 
-        switch(transCode)
-        {
+        switch (transCode) {
 
             case 1:
                 title = "bus stop: ";
@@ -390,27 +446,22 @@ public class MainActivity extends AppCompatActivity implements
         }
 
 
-        for(int i = 0; i < places.length; i++)
-        {
+        for (int i = 0; i < places.length; i++) {
 
-            try
-            {
+            try {
 
-                if(mMap != null)
-                {
+                if (mMap != null) {
 
                     mMap.addMarker(new MarkerOptions()
                             .position(places[i].getLatLng())
                             .title(title + places[i].getName())
-                            .icon(BitmapDescriptorFactory.defaultMarker( color )));
+                            .icon(BitmapDescriptorFactory.defaultMarker(color)));
 
-                }else{
+                } else {
 
                 }
 
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
 
             }
 
@@ -434,15 +485,13 @@ public class MainActivity extends AppCompatActivity implements
 
         mMap.addMarker(new MarkerOptions().title("current location").position(currentLocation.getPosition()));
 
-        if(destination != null)
-        {
+        if (destination != null) {
 
             destination = mMap.addMarker(new MarkerOptions().position(destination.getPosition())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                     .title(destination.getTitle()));
 
         }
-
 
 
     }
