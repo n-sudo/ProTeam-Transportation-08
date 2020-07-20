@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
 
-    private stop[] stops;
+    private String[] stops;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public TextView text;
@@ -22,7 +22,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         }
     }
 
-    public ScheduleAdapter(stop[] stops){
+    public ScheduleAdapter(String[] stops){
 
         this.stops = stops;
 
@@ -40,7 +40,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     @Override
     public void onBindViewHolder(ScheduleAdapter.ViewHolder holder, int position) {
 
-        holder.text.setText(stops[position].getName() + ": " + stops[position].getTimesString());
+        String string = (String) stops[position];
+        System.out.println(string);
+        holder.text.setText(string);
 
     }
 
