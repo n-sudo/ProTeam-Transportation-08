@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".PlanMyTripActivity"></activity>
+        <activity android:name=".SettingsActivity" />
         <activity android:name=".SafetyActivity" />
         <activity android:name=".BusRoutesActivity" />
         <!--

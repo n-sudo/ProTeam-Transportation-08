@@ -152,6 +152,18 @@ public class MainActivity extends AppCompatActivity implements
 
         });
 
+        Button planMyTrip = (Button) findViewById(R.id.planMyTrip);
+        planMyTrip.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                toPlanMyTrip();
+
+            }
+
+        });
+
         safetyText = (TextView) findViewById(R.id.safetyText);
         safetyText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,6 +275,13 @@ public class MainActivity extends AppCompatActivity implements
     private void toSettings() {
 
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+
+    }
+
+    private void toPlanMyTrip() {
+
+        Intent intent = new Intent(this, PlanMyTripActivity.class);
         startActivity(intent);
 
     }

@@ -56,7 +56,7 @@
         android:background="#D30101"
         android:clickable="true"
         android:gravity="center"
-        android:text="stay safe with these recommendations ->"
+        android:text="Covid-19 Safety Tips"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
