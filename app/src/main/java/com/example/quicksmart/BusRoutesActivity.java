@@ -15,6 +15,7 @@ public class BusRoutesActivity<schedules> extends AppCompatActivity {
     private int routeNumber = 22;
 
     private RecyclerView recyclerView;
+    private RecyclerView recyclerView2;
     private TextView routeTitle;
     private ImageView routeMap;
     private Button next;
@@ -79,7 +80,7 @@ public class BusRoutesActivity<schedules> extends AppCompatActivity {
             "Harding",
             "E. 25th Street",
             "Fort Harrison",
-            "idk",
+            "?",
             "Michigan Street",
             "?",
             "?",
@@ -120,13 +121,22 @@ public class BusRoutesActivity<schedules> extends AppCompatActivity {
             }
         });
 
-        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(getSchedule(routeNumber));
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView2);
+        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(getStopsInbound(routeNumber), getTimesInbound(routeNumber));
+        recyclerView = (RecyclerView) findViewById(R.id.inbound);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(scheduleAdapter);
 
+        ScheduleAdapter scheduleAdapter2 = new ScheduleAdapter(getStopsOutbound(routeNumber), getTimesOutbound(routeNumber));
+        recyclerView2 = (RecyclerView) findViewById(R.id.outbound);
+        recyclerView2.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView2.setAdapter(scheduleAdapter2);
+
     }
 
+    /** @prief updates the information displayed when the user changes route selection
+     * @param direction the direction in which to traverse the arrays of information for each route
+     * @note 1 is forwards to 30, and 2 is backwards to 0.
+     */
     private void changeRoute(int direction){
 
         switch(direction)
@@ -155,80 +165,174 @@ public class BusRoutesActivity<schedules> extends AppCompatActivity {
 
         routeTitle.setText(routeNames[routeNumber]);
         routeMap.setImageResource(routeMaps[(routeNumber)]);
-        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(getSchedule(routeNumber));
+        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(getStopsInbound(routeNumber), getTimesInbound(routeNumber));
         recyclerView.setAdapter(scheduleAdapter);
+        ScheduleAdapter scheduleAdapter2 = new ScheduleAdapter(getStopsOutbound(routeNumber), getTimesOutbound(routeNumber));
+        recyclerView2.setAdapter(scheduleAdapter2);
 
     }
 
-    private String[] getSchedule(int routeNumber){
+    /**
+     * @breif given a route number, will return an array of strings with stop and time info
+     * @param routeNumber the route number of the schedule to return
+     * @return an array of strings with stops and time information
+     */
 
-        String[] schedule;
+    private String[] getStopsInbound(int routeNumber){
+
+        String[] stops;
 
         switch(routeNumber){
-
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-            case 21:
-                schedule = new String[] {
-                    "placeholder stop 1: time1, time2, time3",
-                    "placeholder stop 2: time1, ",
-                    "placeholder stop 3: time1, time2",
-                };
-
-                /*
-
-
-                 */
-
-                break;
             case 22:
-                schedule = new String[] {
-                    "38th and Sherman: 454a 524a 554a 624a 654a 724a...",
-                    "25th and Keystone: 5:04a, 5:34a, 6:04a...",
-                    "16th and College: 5:15a. 5:55a, 6:25a...",
-                    "Transit Center: 5:25a, 5:55a, 6:25a..."
+                stops = new String[] {
+                    "38th and Sherman",
+                    "25th and Keystone",
+                    "16th and College",
+                    "Transit Center"
                 };
                 break;
             case 23:
-            case 24:
-            case 25:
-            case 26:
-            case 27:
-            case 28:
-            case 29:
-            case 30:
+                stops = new String[] {
+                        "Comm. Hospital North",
+                        "Ivy Tech Lawrence",
+                        "Finance Center South",
+                        "Arlington and 46th",
+                        "38th and Keystone",
+                        "Central and 16th",
+                        "Transit Center"
+                };
+                break;
             default:
-                schedule = new String[] {
-                    "placeholder stop 1: time1, time2, time3",
-                    "placeholder stop 2: time1, ",
-                    "placeholder stop 3: time1, time2",
+                stops = new String[] {
+                    "¯\\_(ツ)_/¯",
                 };
                 break;
 
         }
 
-        return schedule;
+        return stops;
 
     }
+
+    private String[] getStopsOutbound(int routeNumber){
+
+        String[] stops;
+
+        switch(routeNumber){
+            case 22:
+                stops = new String[] {
+                        "Transit Center",
+                        "16th and College",
+                        "25th and Keystone",
+                        "38th and Sherman"
+                };
+                break;
+            case 23:
+                stops = new String[] {
+                        "Transit Center",
+                        "Central and 16th",
+                        "38th and Keystone",
+                        "Arlington and 46th",
+                        "Finance Center South",
+                        "Ivy Tech Lawrence",
+                        "Comm. Hospital North"
+                };
+                break;
+            default:
+                stops = new String[] {
+                    "¯\\_(ツ)_/¯",
+                };
+                break;
+
+        }
+
+        return stops;
+
+    }
+
+    private String[][] getTimesInbound(int routeNumber){
+
+        String[][] dates;
+
+        switch(routeNumber){
+
+            case 22:
+                dates = new String[][] {
+                        {"454a", "524a", "554a", "624a", "654a", "724a"},
+                        {"504a", "534a", "604a", "634a", "704a", "734a"},
+                        {"515a", "545a", "615a", "645a", "715a", "745a"},
+                        {"525a", "555a", "625a", "655a", "725a", "755a"}
+                };
+                break;
+            case 23:
+                dates = new String[][] {
+                        {" NA   NA   NA   NA   NA   NA "},
+                        {" NA   NA   NA  613a 643a 713a"},
+                        {" NA   NA   NA  619a 649a 719a"},
+                        {"505a 535a 604a 632a 702a 732a"},
+                        {"517a 547a 616a 645a 715a 745a"},
+                        {"529a 559a 628a 658a 728a 758a"},
+                        {"535a 605a 635a 705a 735a 805a"}
+                };
+                break;
+            default:
+                dates = new String[][] {
+                    {
+                        "no schedule for this route"
+                    }
+                };
+                break;
+
+        }
+
+        return dates;
+
+    }
+
+    /**
+     * @breif provides outbound times for stops
+     * @param routeNumber
+     * @return a string of times for each stop in the route
+     */
+    private String[][] getTimesOutbound(int routeNumber){
+
+        String[][] dates;
+
+        switch(routeNumber){
+
+            case 22:
+                dates = new String[][] {
+                        {"515a 545a 615a 645a 715a 745a"},
+                        {"522a 552a 622a 652a 722a 752a"},
+                        {"533a 603a 633a 703a 733a 803a"},
+                        {"544a 614a 644a 714a 744a 814a"}
+                };
+                break;
+            case 23:
+                dates = new String[][] {
+                        {"515a 545a 615a 645a 715a 815a"},
+                        {"521a 551a 621a 651a 721a 821a"},
+                        {"534a 605a 635a 705a 735a 835a"},
+                        {"547a 618a 648a 718a 748a 848a"},
+                        {"559a 630a 700a 730a 800a  NA "},
+                        {"606a 637a 707a 737a 807a  NA "},
+                        {" NA   NA   NA   NA   NA  902a"}
+                };
+                break;
+            default:
+                dates = new String[][] {
+                        {
+                            "no schedule for this route"
+                        }
+                };
+                break;
+
+        }
+
+        return dates;
+
+    }
+
 
 }
 

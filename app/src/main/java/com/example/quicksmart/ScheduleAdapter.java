@@ -13,18 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
 
     private String[] stops;
+    private String[][] times;
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView text;
+        public TextView text1;
+        public TextView text2;
         public ViewHolder(View itemView) {
             super(itemView);
-            this.text = (TextView) itemView.findViewById(R.id.textView);
+            this.text1 = (TextView) itemView.findViewById(R.id.textView);
+            this.text2 = (TextView) itemView.findViewById(R.id.textView2);
         }
     }
 
-    public ScheduleAdapter(String[] stops){
+    public ScheduleAdapter(String[] stops, String[][] times){
 
         this.stops = stops;
+        this.times = times;
+
 
     }
 
@@ -40,10 +45,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     @Override
     public void onBindViewHolder(ScheduleAdapter.ViewHolder holder, int position) {
 
-        String string = (String) stops[position];
-        System.out.println(string);
-        holder.text.setText(string);
-
+        holder.text1.setText(stops[position]);
+        holder.text2.setText(formatTimes(position));
     }
 
     @Override
@@ -53,7 +56,27 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     }
 
+    private String formatTimes(int position){
 
+        String timeString = "";
+
+        if(position < times.length) {
+
+            for (int i = 0; i < times[position].length; i++) {
+
+                timeString += times[position][i] + " ";
+
+            }
+
+        }else{
+
+            timeString = "stop times not found";
+
+        }
+
+        return timeString;
+
+    }
 
 
 }
