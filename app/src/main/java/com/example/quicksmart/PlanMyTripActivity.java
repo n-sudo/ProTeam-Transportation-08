@@ -7,11 +7,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PlanMyTripActivity extends AppCompatActivity {
 
-    private static Transportation[] options;
+    private static String[] options;
 
     private Switch enjoy;
     private Switch cheap;
@@ -87,6 +88,9 @@ public class PlanMyTripActivity extends AppCompatActivity {
         });
 
         recyclerView3 = (RecyclerView) findViewById(R.id.resultsView);
+        TransportationAdapter transAdapt = new TransportationAdapter(new String[] {"debug"});
+        recyclerView3.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView3.setAdapter(transAdapt);
 
     }
 
@@ -127,6 +131,10 @@ public class PlanMyTripActivity extends AppCompatActivity {
 
        resultsText.setVisibility(View.VISIBLE);
        recyclerView3.setVisibility(View.VISIBLE);
+
+        TransportationAdapter transAdapt = new TransportationAdapter(options);
+        recyclerView3.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView3.setAdapter(transAdapt);
 
     }
 

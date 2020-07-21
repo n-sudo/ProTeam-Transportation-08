@@ -9,28 +9,28 @@ public class TripPlanner {
     private Location currentLocation;
     private Location selectedDestination;
 
-    public static Transportation[] getTransportationOptions(int[] preferences){
+    public static String[] getTransportationOptions(int[] preferences){
 
-        ArrayList<Transportation> options = new ArrayList<Transportation>();
+        ArrayList<String> options = new ArrayList<String>();
 
         for(int i = 0; i < preferences.length; i++){
 
             switch(preferences[i]){
 
+                case 2:
+                    options.add("Dude, just walk. It's not really that far\n" +
+                            "Cost: nothing\n" +
+                            "Benefits: exercise is good for you\n" +
+                            "Rating: pretty good\n");
+                    break;
                 default:
-                    options.add(new Transportation(-1,
-                            "your guess is as good as mine",
-                            "",
-                            "",
-                            "",
-                            ""));
                     break;
 
             }
 
         }
 
-        Transportation[] transOpts = new Transportation[options.size()];
+        String[] transOpts = new String[options.size()];
 
         for(int i = 0; i < transOpts.length; i++){
 
