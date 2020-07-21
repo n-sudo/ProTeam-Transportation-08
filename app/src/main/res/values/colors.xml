@@ -9,4 +9,6 @@
     <color name="buttonBackgroundStart">@color/quantum_cyanA700</color>
     <color name="buttonBackgroundCenter">@color/quantum_cyan500</color>
     <color name="buttonBackgroundEnd">@color/quantum_cyanA700</color>
+    <color name="textBackground">@color/quantum_cyan200</color>
+    <color name="textForeground">@color/common_google_signin_btn_text_light_default</color>
 </resources>

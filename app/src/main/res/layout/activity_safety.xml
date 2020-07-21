@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient"
     tools:context=".SafetyActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="390dp"
         android:layout_height="637dp"
-        android:background="#3C3C3C"
+        android:background="@color/textBackground"
+        android:textColor="@color/textForeground"
         android:text="Nolan's safety info goes here"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

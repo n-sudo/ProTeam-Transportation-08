@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements
     private TextView safetyText;
     private Marker bestBikeRoute;
 
+    private static Place selectedDestination;
+
 
 
     @Override
@@ -136,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
+                selectedDestination = place;
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
                 setDestination(place);
             }
@@ -325,6 +328,24 @@ public class MainActivity extends AppCompatActivity implements
         if (bikeSwitch.isChecked())
             addPlaces(3);
 
+
+    }
+
+    public static String getDestination(){
+
+        String destinationString = "";
+
+        if(selectedDestination != null){
+
+            destinationString = selectedDestination.getAddress();
+
+        }else{
+
+            destinationString = "You haven't selected one yet.";
+
+        }
+
+        return destinationString;
 
     }
 

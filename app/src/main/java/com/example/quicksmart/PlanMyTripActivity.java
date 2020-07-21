@@ -7,6 +7,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class PlanMyTripActivity extends AppCompatActivity {
 
@@ -18,13 +19,17 @@ public class PlanMyTripActivity extends AppCompatActivity {
     private Switch safe;
 
     private TextView info;
+    private TextView destination;
+    private TextView resultsText;
+
+    private RecyclerView recyclerView3;
 
     private Button getOptions;
 
     private String enjoyText = "when selected, the Trip Planner will look at user ratings to select the most pleasant way to get from A to B.";
     private String cheapText = "when selected, the Trip Planner will factor in fares and fees to select the most cost-effective option.";
     private String fastText = "when selected, the Trip Planner will consider wait times and estimated travel time to find the fastest trip to your chosen destination.";
-    private String safeText = "Presently we don't have data to back any assessments of how \"safe\" an option is; so we won't. That in mind, the " +
+    private String safeText = "Presently we don't have data to back any assessments of how \"safe\" an option is; so we won't make any. That in mind, the " +
                               "general idea is to assign a safety score based on how feasible precautions like social distancing are.";
     private String defaultText = "I'm not sure how you got here, but this is the default text.";
 
@@ -35,6 +40,11 @@ public class PlanMyTripActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plan_my_trip);
 
         info = (TextView) findViewById(R.id.moreInfo);
+
+        destination = (TextView) findViewById(R.id.chosenDestination);
+        destination.setText(MainActivity.getDestination());
+
+        resultsText = (TextView) findViewById(R.id.textView11);
 
         enjoy = (Switch) findViewById(R.id.enjoySwitch);
         enjoy.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +86,8 @@ public class PlanMyTripActivity extends AppCompatActivity {
             }
         });
 
+        recyclerView3 = (RecyclerView) findViewById(R.id.resultsView);
+
     }
 
     private void setInfoText(int selection){
@@ -112,6 +124,9 @@ public class PlanMyTripActivity extends AppCompatActivity {
         };
 
        options = TripPlanner.getTransportationOptions(preferences);
+
+       resultsText.setVisibility(View.VISIBLE);
+       recyclerView3.setVisibility(View.VISIBLE);
 
     }
 

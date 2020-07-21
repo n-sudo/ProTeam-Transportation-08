@@ -9,12 +9,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient">
+
         <Button
             android:id="@+id/nextRoute"
             android:layout_width="60dp"
             android:layout_height="47dp"
             android:text="Next"
+            android:background="@drawable/gradient3"
             app:layout_constraintBottom_toBottomOf="@+id/routeTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.407"
@@ -26,6 +29,7 @@
             android:layout_width="60dp"
             android:layout_height="47dp"
             android:text="Prev"
+            android:background="@drawable/gradient3"
             app:layout_constraintBottom_toBottomOf="@+id/routeTitle"
             app:layout_constraintEnd_toStartOf="@+id/routeTitle"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +44,7 @@
             android:gravity="center"
             android:text="ROUTE ##"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="#C0C0C0"
+            android:textColor="@color/common_google_signin_btn_text_dark_pressed"
             android:textIsSelectable="false"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -91,7 +95,8 @@
             android:id="@+id/inbound"
             android:layout_width="382dp"
             android:layout_height="197dp"
-            android:background="#3E3E3E"
+            android:background="@color/textBackground"
+            android:textColor="@color/textForeground"
             android:scrollbarAlwaysDrawHorizontalTrack="false"
             android:scrollbarAlwaysDrawVerticalTrack="false"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -106,7 +111,8 @@
             android:layout_width="384dp"
             android:layout_height="200dp"
             android:layout_marginBottom="16dp"
-            android:background="#3E3E3E"
+            android:background="@color/textBackground"
+            android:textColor="@color/textForeground"
             android:scrollbarAlwaysDrawHorizontalTrack="true"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             app:layout_constraintBottom_toBottomOf="parent"

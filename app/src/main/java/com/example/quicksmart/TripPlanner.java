@@ -30,7 +30,15 @@ public class TripPlanner {
 
         }
 
-        return (Transportation[]) options.toArray();
+        Transportation[] transOpts = new Transportation[options.size()];
+
+        for(int i = 0; i < transOpts.length; i++){
+
+            transOpts[i] = options.get(i);
+
+        }
+
+        return transOpts;
 
     }
 
