@@ -7,17 +7,6 @@
     tools:context=".PlanMyTripActivity">
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Your current location:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.075"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/chosenDestination"
         android:layout_width="368dp"
         android:layout_height="31dp"
@@ -36,31 +25,15 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/startingPoint"
-        android:layout_width="368dp"
-        android:layout_height="31dp"
-        android:background="#3E3E3E"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center"
-        android:text="123 somehwere Indianapois, IN"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:text="Your Destination:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.072"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startingPoint" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/problem"
@@ -74,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/chosenDestination" />
 
     <Switch
-        android:id="@+id/switch4"
+        android:id="@+id/enjoySwitch"
         android:layout_width="114dp"
         android:layout_height="27dp"
         android:layout_marginTop="5dp"
@@ -86,37 +59,37 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <Switch
-        android:id="@+id/switch8"
+        android:id="@+id/safeSwitch"
         android:layout_width="114dp"
         android:layout_height="27dp"
         android:background="#3E3E3E"
         android:text="Safe"
-        app:layout_constraintEnd_toEndOf="@+id/switch9"
+        app:layout_constraintEnd_toEndOf="@+id/fastSwitch"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/switch9"
-        app:layout_constraintTop_toBottomOf="@+id/switch9" />
+        app:layout_constraintStart_toStartOf="@+id/fastSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/fastSwitch" />
 
     <Switch
-        android:id="@+id/switch9"
+        android:id="@+id/fastSwitch"
         android:layout_width="114dp"
         android:layout_height="27dp"
         android:background="#3E3E3E"
         android:text="Fast"
-        app:layout_constraintEnd_toEndOf="@+id/switch10"
+        app:layout_constraintEnd_toEndOf="@+id/cheapSwitch"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/switch10"
-        app:layout_constraintTop_toBottomOf="@+id/switch10" />
+        app:layout_constraintStart_toStartOf="@+id/cheapSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/cheapSwitch" />
 
     <Switch
-        android:id="@+id/switch10"
+        android:id="@+id/cheapSwitch"
         android:layout_width="114dp"
         android:layout_height="27dp"
         android:background="#3E3E3E"
         android:text="Cheap"
-        app:layout_constraintEnd_toEndOf="@+id/switch4"
+        app:layout_constraintEnd_toEndOf="@+id/enjoySwitch"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/switch4"
-        app:layout_constraintTop_toBottomOf="@+id/switch4" />
+        app:layout_constraintStart_toStartOf="@+id/enjoySwitch"
+        app:layout_constraintTop_toBottomOf="@+id/enjoySwitch" />
 
     <TextView
         android:id="@+id/textView8"
@@ -135,14 +108,14 @@
         android:layout_height="109dp"
         android:background="#3E3E3E"
         android:text="select an ooption to learn more"
-        app:layout_constraintBottom_toBottomOf="@+id/switch8"
+        app:layout_constraintBottom_toBottomOf="@+id/safeSwitch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/switch10"
-        app:layout_constraintTop_toTopOf="@+id/switch4" />
+        app:layout_constraintStart_toEndOf="@+id/cheapSwitch"
+        app:layout_constraintTop_toTopOf="@+id/enjoySwitch" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/getOptions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -177,8 +150,9 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <ScrollView
-        android:layout_width="372dp"
-        android:layout_height="194dp"
+        android:layout_width="370dp"
+        android:layout_height="269dp"
+        android:layout_marginBottom="32dp"
         android:background="#3E3E3E"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -203,7 +177,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/getOptions"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

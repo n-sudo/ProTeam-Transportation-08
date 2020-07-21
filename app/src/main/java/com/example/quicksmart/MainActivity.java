@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements
     private TextView safetyText;
     private Marker bestBikeRoute;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -100,8 +102,28 @@ public class MainActivity extends AppCompatActivity implements
                 new LatLng(39.960092, -85.883683)));
 
         busSwitch = (Switch) findViewById(R.id.switch1);
+        busSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refreshMap();
+            }
+        });
+
         trainSwitch = (Switch) findViewById(R.id.switch2);
+        trainSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refreshMap();
+            }
+        });
+
         bikeSwitch = (Switch) findViewById(R.id.switch3);
+        bikeSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refreshMap();
+            }
+        });
 
         // setup the map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -124,23 +146,7 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
-        Button viewMap = (Button) findViewById(R.id.button);
-        viewMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toMap();
-            }
-        });
-
-        final Button refreshMap = (Button) findViewById(R.id.refresh);
-        refreshMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refreshMap();
-            }
-        });
-
-        Button busRoutes = (Button) findViewById(R.id.busRoute);
+        ImageButton busRoutes = (ImageButton) findViewById(R.id.bus);
         busRoutes.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -250,13 +256,6 @@ public class MainActivity extends AppCompatActivity implements
                     }
                 });
         dialog.show();
-    }
-
-    private void toMap() {
-
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
-
     }
 
     private void toBusRoutes() {

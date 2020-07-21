@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FFFF4444</color>
-    <color name="colorPrimaryDark">#4a4a4a</color>
+    <color name="colorPrimaryDark">#00838F</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="backgroundStart">@color/quantum_cyan900</color>
+    <color name="backgroundCenter">@color/quantum_cyan800</color>
+    <color name="backgroundEnd">@color/quantum_cyan500</color>
+    <color name="buttonBackgroundStart">@color/quantum_cyanA700</color>
+    <color name="buttonBackgroundCenter">@color/quantum_cyan500</color>
+    <color name="buttonBackgroundEnd">@color/quantum_cyanA700</color>
 </resources>
