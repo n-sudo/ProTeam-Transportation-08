@@ -11,10 +11,13 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,21 +63,22 @@ public class MainActivity extends AppCompatActivity implements
     private static GeoApiContext context = new GeoApiContext.Builder()
             .apiKey("AIzaSyA1_YNNgIOgBvnU78_TUVItovD_pRDAIjU").build();
 
-    private ProgressBar pgsBar;
-    private LocationManager locationManager;
+    private static ProgressBar pgsBar;
+    private static LocationManager locationManager;
+    private static LatLng currentLatLng;
     private Switch busSwitch;
     private Switch trainSwitch;
     private Switch bikeSwitch;
     private Marker destination;
-    private Marker currentLocation;
-    private GoogleMap mMap;
+    private static Marker currentLocation;
+    private static GoogleMap mMap;
     private PlacesClient placesClient;
     private TextView safetyText;
-    private Marker bestBikeRoute;
+    private static Marker bestBikeRoute;
+    private ScrollView scrollView;
+    private static String bestBikeString;
 
     private static Place selectedDestination;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,12 +131,45 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
-        // setup the map fragment
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        scrollView = (ScrollView) findViewById(R.id.scr_view);
+
+
+
+        SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map));
 
         // call onMapReadyCallback when the map is ready
         mapFragment.getMapAsync(this);
+
+        /* https://mahendrarajdhami.wordpress.com/2018/05/02/how-to-solve-scrolling-issue-in-google-maps-api-v2-supportmapfragment-inside-scrollview-when-we-try-to-scroll-map-vertically-parent-scroll-is-also-scrolled/ */
+        ImageView scrollStopper = (ImageView) findViewById(R.id.scrollStopper);
+
+        scrollStopper.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+                        // Disable touch on transparent view
+                        return false;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        scrollView.requestDisallowInterceptTouchEvent(false);
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+                        return false;
+
+                    default:
+                        return true;
+                }
+            }
+        });
+
 
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -212,6 +249,8 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         public void onLocationChanged(@NonNull Location location) {
 
+            currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+
             currentLocation = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(location.getLatitude(), location.getLongitude()))
                     .title("current location")
@@ -229,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements
     };
 
     /* https://github.com/obaro/SimpleLocationApp/blob/master/app/src/main/java/com/sample/foo/simplelocationapp/MainActivity.java */
-    private boolean isLocationEnabled() {
+    private static boolean isLocationEnabled() {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
@@ -238,6 +277,20 @@ public class MainActivity extends AppCompatActivity implements
         if (!isLocationEnabled())
             showAlert();
         return isLocationEnabled();
+    }
+
+    public static LatLng getMyLocation() {
+
+        if (isLocationEnabled() && currentLatLng != null) {
+
+            return currentLatLng;
+
+        }else{
+
+            return null;
+
+        }
+
     }
 
     /* https://github.com/obaro/SimpleLocationApp/blob/master/app/src/main/java/com/sample/foo/simplelocationapp/MainActivity.java */
@@ -385,6 +438,12 @@ public class MainActivity extends AppCompatActivity implements
                 // Adds purple mark for best bike
                 if(bikeSwitch.isChecked())
                     addBestBikeLoc(place);
+
+                if(trainSwitch.isChecked())
+                    addBestBikeLoc(place);
+
+                if(busSwitch.isChecked())
+                    addBestBikeLoc(place);
                 
             } else {
 
@@ -396,7 +455,7 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    public void addBestBikeLoc(Place place) throws InterruptedException, ApiException, IOException {
+    public static void addBestBikeLoc(Place place) throws InterruptedException, ApiException, IOException {
         pgsBar.setVisibility(View.VISIBLE);
         // Remove previous marker
         if(bestBikeRoute != null)
@@ -439,6 +498,7 @@ public class MainActivity extends AppCompatActivity implements
             }
             duration = 0;
         } // End for loop
+
         if (bestBikeLoc != null) {
             Log.d("MyApp","Hey it wasn't null");
             bestBikeRoute = mMap.addMarker(new MarkerOptions()
@@ -448,6 +508,65 @@ public class MainActivity extends AppCompatActivity implements
         }
         pgsBar.setVisibility(View.GONE);
     }
+
+    public static String[] getFastestBike() throws InterruptedException, ApiException, IOException {
+        pgsBar.setVisibility(View.VISIBLE);
+        // Remove previous marker
+        if(bestBikeRoute != null)
+            bestBikeRoute.remove();
+        // For pointing out best bike location
+        Place bestBikeLoc = null;
+        long bestDur = Integer.MAX_VALUE;
+        String walkDur = "";
+        String bikeDur = "";
+        // Current location of user
+        com.google.maps.model.LatLng currentLoc = new com.google.maps.model.LatLng(currentLocation.getPosition().latitude,
+                currentLocation.getPosition().longitude);
+        for (Place bikeLoc : PlaceFinder.getPlaces(3)) {
+            // Since there are two kinds of LatLng and google hates me
+            com.google.maps.model.LatLng bikeLocToCheck = new com.google.maps.model.LatLng(bikeLoc.getLatLng().latitude,
+                    bikeLoc.getLatLng().longitude);
+            com.google.maps.model.LatLng dest = new com.google.maps.model.LatLng(selectedDestination.getLatLng().latitude,
+                    selectedDestination.getLatLng().longitude);
+            // For from current location to bike
+            DistanceMatrixApiRequest req1 = DistanceMatrixApi.newRequest(context);
+            DistanceMatrix trix1 = req1.origins(currentLoc)
+                    .destinations(bikeLocToCheck)
+                    .mode(TravelMode.WALKING)
+                    .await();
+            // For from bike to destination
+            DistanceMatrixApiRequest req2 = DistanceMatrixApi.newRequest(context);
+            DistanceMatrix trix2 = req2.origins(bikeLocToCheck)
+                    .destinations(dest)
+                    .mode(TravelMode.BICYCLING)
+                    .await();
+            long duration = trix1.rows[0].elements[0].duration.inSeconds;
+            Log.d("MyApp","Duration 1 " + duration);
+            duration += trix2.rows[0].elements[0].duration.inSeconds;
+            Log.d("MyApp","Duration 2 " + duration);
+            if (duration < bestDur) {
+                bestDur = duration;
+                bestBikeLoc = bikeLoc;
+                walkDur = trix1.rows[0].elements[0].duration.toString();
+                bikeDur = trix2.rows[0].elements[0].duration.toString();
+            }
+            duration = 0;
+        } // End for loop
+
+        if (bestBikeLoc != null) {
+
+            return new String[] { "walk for " + walkDur + "till you reach" + bestBikeLoc.getAddress(),
+                    "Grab a pacer's bike, and ride for " + bikeDur + "untill you arrive at " + selectedDestination.getAddress()};
+
+        }else{
+
+            return new String[] {"there was some form of error"};
+
+        }
+
+    }
+
+
 
     /**
      * @param transCode the code of the mode of transportation to get locations for

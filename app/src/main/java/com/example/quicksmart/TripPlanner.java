@@ -2,6 +2,9 @@ package com.example.quicksmart;
 
 import android.location.Location;
 
+import com.google.maps.errors.ApiException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TripPlanner {
@@ -9,7 +12,18 @@ public class TripPlanner {
     private Location currentLocation;
     private Location selectedDestination;
 
+    private static ArrayList<String> options = new ArrayList<String>();
+
     public static String[] getTransportationOptions(int[] preferences){
+
+
+        if(MainActivity.getDestination().contains("You haven't selected one yet.")){
+
+            return new String[]{"you cannot continue unless you select a\n" +
+                    "destination please go back to the home\n" +
+                    "screen and select a destination using the search bar"};
+
+        }
 
         ArrayList<String> options = new ArrayList<String>();
 
@@ -17,12 +31,12 @@ public class TripPlanner {
 
             switch(preferences[i]){
 
+
                 case 2:
-                    options.add("Dude, just walk. It's not really that far\n" +
-                            "Cost: nothing\n" +
-                            "Benefits: exercise is good for you\n" +
-                            "Rating: pretty good\n");
+                    options.add(calculateCheapest());
                     break;
+                case 3:
+                    calculateFastest();
                 default:
                     break;
 
@@ -48,18 +62,39 @@ public class TripPlanner {
 
     }
 
-    private int calculateFastest(){
 
-        return 0;
-
-    }
-
-    private int calculateCheapest(){
+    private static String calculateCheapest(){
 
         /* if the user is within walking distance, and is able to
            do so, tell them to walk. */
 
-        return 0;
+        return "Dude, just walk. It's not really that far\n" +
+                "Cost: nothing\n" +
+                "Benefits: exercise is good for you\n" +
+                "Rating: pretty good\n";
+
+
+    }
+
+
+    private static void calculateFastest(){
+
+        try {
+            String[] optionStrings = MainActivity.getFastestBike();
+
+            for(int i = 0; i < optionStrings.length; i++){
+
+                options.add(new String(optionStrings[i]));
+
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ApiException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

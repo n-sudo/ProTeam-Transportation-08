@@ -17,7 +17,8 @@ public class TransportationAdapter extends RecyclerView.Adapter<TransportationAd
         R.drawable.untitled__2_,
         R.drawable.untitled__3_,
         R.drawable.untitled__4_,
-        R.drawable.dude_walking
+        R.drawable.dude_walking,
+        R.drawable.warning
     };
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -49,7 +50,19 @@ public class TransportationAdapter extends RecyclerView.Adapter<TransportationAd
     public void onBindViewHolder(TransportationAdapter.ViewHolder holder, int position) {
 
         holder.text1.setText(transInfo[position]);
-        holder.icon.setImageResource(resIds[3]);
+
+        if (transInfo[position].contains("walk")) {
+            holder.icon.setImageResource(resIds[3]);
+        } else if (transInfo[position].contains("bike")) {
+            holder.icon.setImageResource(resIds[0]);
+        } else if (transInfo[position].contains("bus")) {
+            holder.icon.setImageResource(resIds[1]);
+        } else if (transInfo[position].contains("train")) {
+            holder.icon.setImageResource(resIds[2]);
+        }else{
+            holder.icon.setImageResource(resIds[4]);
+        }
+
     }
 
     @Override
