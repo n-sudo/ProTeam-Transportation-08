@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements
         // Specify the types of place data to return
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG));
 
-        // Set to Indianapolis-ish specific region
+        // Set location bias to Indianapolis-ish specific region
         autocompleteFragment.setLocationBias(RectangularBounds.newInstance(
                 new LatLng(39.632193, -86.324746),
                 new LatLng(39.960092, -85.883683)));
