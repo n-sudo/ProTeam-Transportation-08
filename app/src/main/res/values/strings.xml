@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Quicksmart</string>
+    <string name="app_name">Commute Indy</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main2">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
