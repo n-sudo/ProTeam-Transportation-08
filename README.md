@@ -6,55 +6,55 @@ Transport8ion TechPoint S.O.S Challenge Submission
 - [APP_NAME_HERE](#app_name_here)
   - [Table of Contents](#table-of-contents)
   - [About The Project](#about-the-project)
-    - [Built With](#built-with)
+    - [Technologies](#technologies)
   - [Usage](#usage)
     - [Prerequisites](#prerequisites)
     - [Configuring an Android Virtual Device](#configuring-an-android-virtual-device)
     - [Running the Project](#running-the-project)
-  - [Contact](#contact)
+  - [Contacts](#contacts)
   - [Acknowledgements](#acknowledgements)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-### Built With
+This is a prototype of an app to help people in Indianapolis find transportation that best suits their needs. 
+
+### Technologies
 this project was made in Android Developer Studio, and utilizes Google Maps for mapping and location information. 
 
-<!-- GETTING STARTED -->
+<!-- USAGE -->
 ## Usage
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+We recommend running this application in a Virtual Device from Android Studio.
 
 ### Prerequisites
 
-To test this application out for yourself you will need to download and install Android Developer, and create a Virtual Device on which to run the application. 
+To test this application out for yourself you will need to download and install Android Studio, and create a Virtual Device on which to run the application. There are no special requirements for setting up Android Studio. 
 
 ### Configuring an Android Virtual Device
-
-todo: write this section
 
 ### Running the Project
 
 1. Get a Google Maps API key [from their webpage](https://developers.google.com/maps/documentation/javascript/get-api-key)
-2. Clone the repo (you will need to email me with your github info first, because it is a private repo)
+2. Clone the repo.
 ```sh
 git clone https://github.com/n-sudo/ProTeam-Transportation-08.git
 ```
 3. Import the project into Android Developer
+4. Add your API key to app/release/src/res/values/google_maps_api.xml
 ```
-```
-1. Add your API key to LOCATION_HERE and LOCATION_HERE
-```
-const API_KEY = 'ENTER YOUR API';
+<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">YOUR_KEY_HERE</string>
 ```
 
 <!-- CONTACT -->
-## Contact
+## Contacts
 
-todo: add contacts
+Nathan Craane - nathan.craane@outlook.com
+Nolan Christian -ncristi@purdue.edu 
+Nick Pisciotta - piscionj@rosehulman.edu 
+
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-todo: write this section
+Special thanks to James Rutland and Donna Bryant 
