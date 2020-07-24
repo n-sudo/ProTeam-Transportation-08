@@ -1,9 +1,9 @@
-# APP_NAME_HERE
+# Commute Indy
 Transport8ion TechPoint S.O.S Challenge Submission 
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
-- [APP_NAME_HERE](#app_name_here)
+- [Commute Indy](#commute-indy)
   - [Table of Contents](#table-of-contents)
   - [About The Project](#about-the-project)
     - [Technologies](#technologies)
